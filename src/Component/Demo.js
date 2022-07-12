@@ -5,6 +5,7 @@ import Control from './Control';
 import Form from './Form';
 import List from './List';
 import {filter, includes, orderBy as funcOrderBy, remove, reject} from 'lodash';
+import Direction from '../Router/Direction';
 import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
 //const uuidv4 = require('uuid/v4');
@@ -150,6 +151,7 @@ class Demo extends React.Component {
     }
     return (
       <div className="container">
+        <Direction/>
         <Title/>
         <hr/>
         <Control 

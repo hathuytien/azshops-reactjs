@@ -1,9 +1,7 @@
 import React from 'react';
 import Demo from './Component/Demo';
 import AddNew from './Component/AddNew';
-import Direction from './Router/Direction';
-import Nav from './Component/Nav';
-import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
+import { Routes, Route} from "react-router-dom";
 
 class App extends React.Component {
   constructor(props) {
@@ -15,12 +13,10 @@ class App extends React.Component {
   }
   render() {
     return (
-      <Router>
-        <div>
-          <Nav/>
-            <Direction/>
-        </div>
-      </Router>
+      <Routes>
+        <Route path="/" element={<AddNew />} />
+        <Route path="demo" element={<Demo />} />
+      </Routes>
     );
   }
 }

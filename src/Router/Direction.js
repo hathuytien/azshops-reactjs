@@ -1,7 +1,5 @@
 import React from 'react';
 import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
-import AddNew from '../Component/AddNew';
-import Demo from '../Component/Demo';
 
 class Direction extends React.Component {
   constructor(props) {
@@ -14,10 +12,10 @@ class Direction extends React.Component {
   render() {
     return (
       <div>
-          {/* <ul>
-            <li><Route exact path="/" Component={AddNew}>Trang chủ</Route></li>
-            <li><Route path="/demo" Component={Demo}>Quản lý sản phẩm</Route></li>
-          </ul> */}
+          <ul>
+            <li><Link  to="/">Trang chủ</Link></li>
+            <li><Link  to="/demo">Quản lý sản phẩm</Link></li>
+          </ul>
       </div>
     );
   }

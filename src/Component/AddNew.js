@@ -1,4 +1,5 @@
 import React from 'react';
+import Direction from '../Router/Direction';
 
 function AddNew() {
   return (
@@ -12,6 +13,7 @@ function AddNew() {
       </nav> 
       <Link to="/">AddNew</Link>
       <Link to="/demo">Demo</Link>*/}
+      <Direction/>
       <h2 className='mb-3'>Thêm sản phẩm</h2>
       <div className='row'>
         <div className='col-md-9 col-sm-12'>
