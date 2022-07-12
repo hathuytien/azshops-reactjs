@@ -1,0 +1,11 @@
+.breadcrumb-item+.breadcrumb-item::before {
+    float: left;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    color: #6c757d;
+    content: "\F285";
+    content: var(--bs-breadcrumb-divider, "");
+}
+.container{
+    padding: 30px 0;
+}
