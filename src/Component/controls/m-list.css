@@ -1,0 +1,55 @@
+.m-list .form-control {
+  padding: 0.175rem 0.75rem;
+}
+
+
+
+.m-list .btn  {
+  padding: 0.175rem 0.75rem;
+}
+
+.m-list .list-item:hover {
+  background-color: #dbdbdb;
+  cursor: pointer;
+}
+
+.m-list .list-item {
+  line-height: unset;
+}
+
+.m-list .list-item.active{
+  color: #618bff;
+  background-color: #dbdbdb;
+}
+
+.scrollbar::-webkit-scrollbar {
+  width: 6px;
+  background-color: transparent;
+} 
+.scrollbar::-webkit-scrollbar-thumb {
+  background-color: #7e7c7c;
+  border-radius: 10px;
+}
+.txt-hilight{
+  color: red;
+}
+
+/* .short-text {
+  text-overflow:ellipsis;
+  overflow:hidden;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  white-space: normal;
+} */
+
+.short-text {
+  white-space: nowrap; 
+  overflow: hidden;
+  width: 98%;
+  text-overflow: ellipsis;
+  display: inline-block;
+  vertical-align: middle;
+  margin-bottom: 2px;
+}
+
