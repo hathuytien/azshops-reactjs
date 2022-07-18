@@ -1,7 +1,9 @@
 import React from 'react';
-import Demo from './Component/Demo';
+/* import Demo from './Component/Demo';
 import AddNew from './Component/AddNew';
-import { Routes, Route} from "react-router-dom";
+import { Routes, Route} from "react-router-dom"; */
+import Nav from './Component/Nav';
+import Direction from './Router/Direction';
 
 class App extends React.Component {
   constructor(props) {
@@ -13,10 +15,17 @@ class App extends React.Component {
   }
   render() {
     return (
-      <Routes>
-        <Route path="/" element={<AddNew />} />
-        <Route path="demo" element={<Demo />} />
-      </Routes>
+      <div className="container-fluid">
+        <div className="row">
+          <div className="col-2">
+            <Nav/>
+          </div>
+          <div className="col-10">
+            <Direction/>
+          </div>
+        </div>
+        
+      </div>
     );
   }
 }

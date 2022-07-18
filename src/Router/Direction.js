@@ -1,5 +1,9 @@
 import React from 'react';
-import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
+import Demo from '../Component/Demo';
+import AddNew from '../Component/AddNew';
+import {BrowserRouter as Router, Switch,Routes, Route, Link} from "react-router-dom";
+import ItemDetail from '../Component/ItemDetail';
+import Samples from '../pages/Samples/ListSample'
 
 class Direction extends React.Component {
   constructor(props) {
@@ -11,12 +15,13 @@ class Direction extends React.Component {
   }
   render() {
     return (
-      <div>
-          <ul>
-            <li><Link  to="/">Trang chủ</Link></li>
-            <li><Link  to="/demo">Quản lý sản phẩm</Link></li>
-          </ul>
-      </div>
+      
+      <Routes>
+        <Route path="/" element={<AddNew />} />
+        <Route path="demo" element={<Demo />} />
+        <Route path="sample" element={<Samples />} />
+        <Route path="item-detail/:id.:name" element={<ItemDetail />} />
+      </Routes>
     );
   }
 }

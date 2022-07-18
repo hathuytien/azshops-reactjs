@@ -1,19 +1,19 @@
 import React from 'react';
-import Direction from '../Router/Direction';
+/* import Direction from '../Router/Direction'; */
 
 function AddNew() {
   return (
-    <div className="App container">
+    <div>
       {/* <nav aria-label="breadcrumb">
         <ol className="breadcrumb">
-          <li className="breadcrumb-item"><a href="#">Trang chủ</a><i class="bi bi-chevron-right"></i></li>
-          <li className="breadcrumb-item"><a href="#">Quản lý sản phẩm</a><i class="bi bi-chevron-right"></i></li>
+          <li className="breadcrumb-item"><a href="#">Trang chủ</a><i className="bi bi-chevron-right"></i></li>
+          <li className="breadcrumb-item"><a href="#">Quản lý sản phẩm</a><i className="bi bi-chevron-right"></i></li>
           <li className="breadcrumb-item active" aria-current="page">Thêm sản phẩm</li>
         </ol>
       </nav> 
       <Link to="/">AddNew</Link>
-      <Link to="/demo">Demo</Link>*/}
-      <Direction/>
+      <Link to="/demo">Demo</Link>
+      <Direction/>*/}
       <h2 className='mb-3'>Thêm sản phẩm</h2>
       <div className='row'>
         <div className='col-md-9 col-sm-12'>
@@ -149,7 +149,7 @@ function AddNew() {
           <div className="card mb-3">
             <div className="card-body">
               <div className="form-check">
-                <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked/>
+                <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1"/>
                 <label className="form-check-label" htmlFor="flexRadioDefault1">
                   Thông tin cơ bản
                 </label>

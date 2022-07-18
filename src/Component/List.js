@@ -19,6 +19,7 @@ class List extends React.Component {
           key={index} 
           item={item} 
           index={index}
+          items={items} 
         />
       );
     })
