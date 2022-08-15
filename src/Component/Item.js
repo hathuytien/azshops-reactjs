@@ -13,10 +13,11 @@ class Item extends React.Component {
     this.handleEdit   = this.handleEdit.bind(this);
   }
   handleEdit(item){
+    console.log(item);
     this.props.onClickEdit(item);
   }
-  handleDelete(id){
-    this.props.onClickDelete(id);
+  handleDelete(id, key){
+    this.props.onClickDelete(id, key);
   }
   showElementSize(size){
     let elmSize = <span className="badge bg-secondary">S</span>;
@@ -67,7 +68,7 @@ class Item extends React.Component {
         <td className="text-center">
           <div className="btn-group" role="group" aria-label="Basic mixed styles example">
             <button onClick={()=>this.handleEdit(item)} type="button" className="btn btn-warning"><i className="bi bi-pencil-square"></i> Edit</button>
-            <button onClick={()=>this.handleDelete(item.id)} type="button" className="btn btn-danger"><i className="bi bi-trash-fill"></i> Delete</button>
+            <button onClick={()=>this.handleDelete(item.id, item.key)} type="button" className="btn btn-danger"><i className="bi bi-trash-fill"></i> Delete</button>
             {/* <button onClick={"/list-product/" + item.id} type="button" className="btn btn-info"><i className="bi bi-eye-fill"></i> View</button> */}
             <a href={"/item-detail/" + item.id + "." + this.to_slug(item.name)} type="button" className="btn btn-info" items={this.props.items}><i className="bi bi-eye-fill"></i> View</a>
             {/* <Link to={"/list-product/"+item.id}>

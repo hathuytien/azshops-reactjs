@@ -5,6 +5,7 @@ class Form extends React.Component {
     super(props);
     // Don't call this.setState() here!
     this.state = { 
+      product_key :'',
       product_id  : '',
       product_name: '',
       product_size: 0
@@ -23,9 +24,11 @@ class Form extends React.Component {
   UpdateItem(item){
     if(item !== null){
       this.setState({
+        product_key : item.key,
         product_id  : item.id,
         product_name: item.name,
-        product_size: item.size
+        product_size: item.parentId
+        //product_size: item.size
       })
     }
   }
@@ -40,10 +43,12 @@ class Form extends React.Component {
   }
   handleSubmit(event) {
     let item = {
+      key: this.state.product_key,
       id: this.state.product_id,
       name: this.state.product_name,
       size: this.state.product_size
     };
+    //this.props.onClickSubmit(item, this.state.product_key);
     this.props.onClickSubmit(item);
     event.preventDefault();
   }

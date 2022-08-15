@@ -9,6 +9,8 @@ import {filter, includes, orderBy as funcOrderBy, remove, reject} from 'lodash';
 import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
 //const uuidv4 = require('uuid/v4');
+import { getDatabase , ref, onValue , set, push , child , get , update} from "firebase/database";
+import { collection, query, getDocs, deleteDoc } from "firebase/firestore"; 
 
 class Demo extends React.Component {
   //state có thể đem ra ngoài constructor được
@@ -29,7 +31,7 @@ class Demo extends React.Component {
       strSearch :'',
       orderBy   :'name',
       orderDir  :'asc',
-      isSelected: null 
+      isSelected: null
     };
     //bind đối tượng this cho từng function
     this.handleToggleForm = this.handleToggleForm.bind(this);
@@ -48,7 +50,8 @@ class Demo extends React.Component {
   } */
   UNSAFE_componentWillMount() {
     let items = JSON.parse(localStorage.getItem('product'));
-    axios
+    //dung api
+    /* axios
       .get('https://azshops.herokuapp.com/api/mst/category?parentId=1')
       .then((response) => {
         if(response.data.data!=[]){
@@ -64,10 +67,42 @@ class Demo extends React.Component {
       })
       .catch((error) => {
         console.log('error', error)
+      }); */
+
+      //dung firebase
+      const db = getDatabase();
+      let array = [];
+      const starCountRef = ref(db, 'data');
+      onValue(starCountRef, (snapshot) => {
+        //datafirebase = JSON.parse(JSON.stringify(snapshot.val()))
+        array = [];
+        snapshot.forEach((child) => {
+          //array.push(child.val());
+          
+          if(JSON.parse(JSON.stringify(snapshot.val()))!=[]){
+            var item = {
+              key : child.key,
+              id : child.val().id,
+              name : child.val().name,
+              parentId : child.val().parentId
+            }
+            array.push(item);
+            this.setState({
+              items:array
+            });
+          }
+          else{
+            this.setState({
+              items:items,
+            });
+          }
+        });
       });
+      localStorage.setItem('product', JSON.stringify(array));
+    //end dung firebase
     }
   handleSubmit(item){
-    let {items} = this.state;
+    /* let {items} = this.state;
     let id      = null;
     if(item.id !==''){
       items = reject(items, { id: item.id });
@@ -84,6 +119,52 @@ class Demo extends React.Component {
       items:items,
       isShowForm: false
     });
+    localStorage.setItem('product', JSON.stringify(items)); */
+
+    //firebase
+    const db = getDatabase();
+    //let id      = null;
+    const items = ref(db, 'data/');
+    //const items = doc(collection(db, "data"));
+    console.log(item, item.key);
+    if(item.id != ''){
+      //let id      = null;
+      var updates = {
+        name: item.name,
+        id: item.id,
+        parentId : +item.size
+      }
+      update(ref(db, 'data/' + item.key), updates)
+      .then(() => {
+        // Data saved successfully!
+        alert('Edit data successfully!');
+      })
+      .catch((error) => {
+        // The write failed...
+        alert('The edit failed...');
+      });
+      //await updateDoc(items, item);
+    } else{
+      var id = uuidv4();
+      const newitem = push(items);
+      set(newitem, {
+        name: item.name,
+        id: id,
+        parentId : +item.size
+      })
+      .then(() => {
+        // Data saved successfully!
+        alert('Data saved successfully!');
+      })
+      .catch((error) => {
+        // The write failed...
+        alert('The write failed...');
+      });
+    }
+    this.setState({
+      //items:items,
+      isShowForm: false
+    });
     localStorage.setItem('product', JSON.stringify(items));
   }
   handleEdit(item){
@@ -92,15 +173,41 @@ class Demo extends React.Component {
       isShowForm: true
     })
   }
-  handleDelete(id){
-    let items = this.state.items;
+  handleDelete(id, key){
+    /* let items = this.state.items;
     remove(items,(item)=>{
       return item.id === id;
     });
     this.setState({
       items:items
     });
+    localStorage.setItem('product', JSON.stringify(items)); */
+
+    //dung firebase
+    
+    
+    const db = getDatabase();
+    const items = ref(db, 'data/');
+    const updates={
+      id: null,
+      parentId : null,
+      name: null
+    }
+    this.setState({
+      items:items,
+      isShowForm: false
+    });
+    update(ref(db, 'data/' + key), updates)
+    .then(() => {
+      // Data saved successfully!
+      alert('Delete successfully!');
+    })
+    .catch((error) => {
+      // The write failed...
+      alert('The delete failed...');
+    });
     localStorage.setItem('product', JSON.stringify(items));
+  //end dung firebase
   }
   handleSort(orderBy, orderDir){
   //handleSort = (orderBy, orderDir) => {}
@@ -131,12 +238,18 @@ class Demo extends React.Component {
   render() {
     let elmForm     = null;
     let itemsOrigin = (this.state.items !== null) ? [...this.state.items] : [];
+    /* this.setState({
+      items : array
+    }); */
+    
+    //let itemsOrigin = (this.state.items !== null) ? array : []; //dung firebase
     let items       = [];
     let {orderBy, orderDir, isShowForm, strSearch, itemSelected} = this.state;
 
     //Search
     items = filter(itemsOrigin, (item) => {
-      return includes(item.name.toLowerCase(), strSearch.toLowerCase());
+      //return includes(item.name.toLowerCase(), strSearch.toLowerCase());
+      return includes(item.name, strSearch);
     });
     
     //Sort

@@ -4,6 +4,8 @@ import AddNew from '../Component/AddNew';
 import {BrowserRouter as Router, Switch,Routes, Route, Link} from "react-router-dom";
 import ItemDetail from '../Component/ItemDetail';
 import Samples from '../pages/Samples/ListSample'
+import ListOrder from '../Component/ListOrder';
+import ListProduct from '../Component/ListProduct';
 
 class Direction extends React.Component {
   constructor(props) {
@@ -18,7 +20,8 @@ class Direction extends React.Component {
       
       <Routes>
         <Route path="/" element={<AddNew />} />
-        <Route path="demo" element={<Demo />} />
+        <Route path="product" element={<ListProduct />} />
+        <Route path="order" element={<ListOrder />} />
         <Route path="sample" element={<Samples />} />
         <Route path="item-detail/:id.:name" element={<ItemDetail />} />
       </Routes>

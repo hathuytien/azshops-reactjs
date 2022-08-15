@@ -23,6 +23,176 @@ function AddNew() {
               <h5>Ảnh sản phẩm</h5>
               <p>Đây là hình ảnh chính trên trang sản phẩm. Bạn có thể up nhiều hình ảnh cùng lúc và tối đa có thể có 8 hình. Hình ảnh cần có kích thước từ 330x300 px đến 5000x5000px và không dược phép chứa nội dung nhạy cảm. Kích thước tối đa: 2 MB</p>
               <div className="mb-3">
+                <form id="frm" method="post" className="needs-validation" noValidate>
+                  {/*Image container */}
+                  <div className="row" data-type="imagesloader" data-errorformat="Accepted file formats" data-errorsize="Maximum size accepted" data-errorduplicate="File already loaded" data-errormaxfiles="Maximum number of images you can upload" data-errorminfiles="Minimum number of images to upload" data-modifyimagetext="Modify immage">
+                    {/* Progress bar */}
+                    <div className="col-12 order-1 mt-2">
+                      <div data-type="progress" className="progress" style={{height: '25px', display: 'none'}}>
+                        <div data-type="progressBar" className="progress-bar progress-bar-striped progress-bar-animated bg-primary" role="progressbar" style={{width: '100%'}}>Load in progress...</div>
+                      </div>
+                    </div>
+                    {/* Model */}
+                    <div data-type="image-model" className="col-4 pl-2 pr-2 pt-2" style={{maxWidth: '200px', display: 'none'}}>
+                      <div className="ratio-box text-center" data-type="image-ratio-box">
+                        <img data-type="noimage" className="btn btn-light ratio-img img-fluid p-2 image border dashed rounded" src="./img/photo-camera-gray.svg" style={{cursor: 'pointer'}} />
+                        <div data-type="loading" className="img-loading" style={{color: '#218838', display: 'none'}}>
+                          <span className="fa fa-2x fa-spin fa-spinner" />
+                        </div>
+                        <img data-type="preview" className="btn btn-light ratio-img img-fluid p-2 image border dashed rounded" src="" style={{display: 'none', cursor: 'default'}} />
+                        <span className="badge badge-pill badge-primary p-2 w-50 main-tag" style={{display: 'none'}}>Main</span>
+                      </div>
+                      {/* Buttons */}
+                      {/* <div data-type="image-buttons" className="row justify-content-center m-0 mt-2">
+                        <button data-operation="remove" className="btn btn-outline-danger btn-sm btn-block remove" type="button"><span className="fa fa-times"/>Remove</button>
+                      </div> */}
+                      <div data-type="image-buttons" className="row justify-content-center m-0 mt-2">
+                        <button data-type="add" className="btn btn-outline-primary" type="button"><span className="bi bi-camera-fill m-2" />Add</button>
+                        <button data-type="btn-modify" type="button" className="btn btn-outline-primary m-0" data-toggle="popover" data-placement="right" style={{display: 'none'}}>
+                          <span className="fa fa-pencil-alt mr-2" />Modify
+                        </button>
+                      </div>
+                      
+                      
+                    </div>
+                    {/* Buttons */}
+                    <div data-type="image-buttons" className="row justify-content-center m-0 mt-2">
+                        {/* <button data-type="add" className="btn btn-outline-primary" type="button"><span className="bi bi-camera-fill m-2" />Add</button> */}
+                        {/* <button data-type="btn-modify" type="button" className="btn btn-outline-primary m-0" data-toggle="popover" data-placement="right" style={{display: 'none'}}>
+                          <span className="fa fa-pencil-alt mr-2" />Modify
+                        </button> */}
+                    </div>
+                    {/* Popover operations */}
+                    {/* <div data-type="popover-model" style={{display: 'none'}}>
+                      <div data-type="popover" className="ml-3 mr-3" style={{minWidth: '150px'}}>
+                        <div className="row">
+                          <div className="col p-0">
+                            <button data-operation="main" className="btn btn-block btn-primary btn-sm rounded-pill" type="button"><span className="fa fa-angle-double-up mr-2" />Main</button>
+                          </div>
+                        </div>
+                        <div className="row mt-2">
+                          <div className="col-6 p-0 pr-1">
+                            <button data-operation="left" className="btn btn-block btn-outline-info btn-sm rounded-pill" type="button"><span className="fa fa-angle-left mr-2" />Left</button>
+                          </div>
+                          <div className="col-6 p-0 pl-1">
+                            <button data-operation="right" className="btn btn-block btn-outline-primary btn-sm rounded-pill" type="button">Right<span className="fa fa-angle-right ml-2" /></button>
+                          </div>
+                        </div>
+                        <div className="row mt-2">
+                          <div className="col-6 p-0 pr-1">
+                            <button data-operation="rotateanticlockwise" className="btn btn-block btn-outline-primary btn-sm rounded-pill" type="button"><span className="fas fa-undo-alt mr-2" />Rotate</button>
+                          </div>
+                          <div className="col-6 p-0 pl-1">
+                            <button data-operation="rotateclockwise" className="btn btn-block btn-outline-primary btn-sm rounded-pill" type="button">Rotate<span className="fas fa-redo-alt ml-2" /></button>
+                          </div>
+                        </div>
+                        <div className="row mt-2">
+                          <button data-operation="remove" className="btn btn-outline-danger btn-sm btn-block" type="button"><span className="fa fa-times mr-2" />Remove</button>
+                        </div>
+                      </div>
+                    </div> */}
+                  </div>
+                  <div className="form-group row">
+                    <div className="input-group">
+                      {/*Hidden file input for images*/}
+                      <input id="files" type="file" name="files[]" data-button multiple accept="image/jpeg, image/png, image/gif," style={{display: 'none'}} />
+                    </div>
+                  </div>
+                </form>
+                {/* <div className="row mt-2">
+                  <div className="col-md-4 offset-md-8 text-center mb-4">
+                    <button id="btnContinue" type="submit" form="frm" className="btn btn-block btn-outline-primary float-right" data-toggle="tooltip" data-trigger="manual" data-placement="top" data-title="Continue">
+                      Continue<span id="btnContinueIcon" className="bi bi-arrow-right-circle-fill m-2" /><span id="btnContinueLoading" className="fa fa-spin fa-spinner ml-2" style={{display: 'none'}} />
+                    </button>
+                  </div>2
+                </div> */}
+              </div>
+              <div className="mb-3">
+                <form id="frm2" method="post" className="needs-validation" noValidate>
+                  {/*Image container */}
+                  <div className="row" data-type="imagesloader2" data-errorformat="Accepted file formats" data-errorsize="Maximum size accepted" data-errorduplicate="File already loaded" data-errormaxfiles="Maximum number of images you can upload" data-errorminfiles="Minimum number of images to upload" data-modifyimagetext="Modify immage">
+                    {/* Progress bar */}
+                    <div className="col-12 order-1 mt-2">
+                      <div data-type="progress" className="progress" style={{height: '25px', display: 'none'}}>
+                        <div data-type="progressBar" className="progress-bar progress-bar-striped progress-bar-animated bg-primary" role="progressbar" style={{width: '100%'}}>Load in progress...</div>
+                      </div>
+                    </div>
+                    {/* Model */}
+                    <div data-type="image-model" className="col-4 pl-2 pr-2 pt-2" style={{maxWidth: '200px', display: 'none'}}>
+                      <div className="ratio-box text-center" data-type="image-ratio-box">
+                        <img data-type="noimage" className="btn btn-light ratio-img img-fluid p-2 image border dashed rounded" src="./img/photo-camera-gray.svg" style={{cursor: 'pointer'}} />
+                        <div data-type="loading" className="img-loading" style={{color: '#218838', display: 'none'}}>
+                          <span className="fa fa-2x fa-spin fa-spinner" />
+                        </div>
+                        <img data-type="preview" className="btn btn-light ratio-img img-fluid p-2 image border dashed rounded" src="" style={{display: 'none', cursor: 'default'}} />
+                        <span className="badge badge-pill badge-primary p-2 w-50 main-tag" style={{display: 'none'}}>Main</span>
+                      </div>
+                      {/* Buttons */}
+                      {/* <div data-type="image-buttons" className="row justify-content-center m-0 mt-2">
+                        <button data-operation="remove" className="btn btn-outline-danger btn-sm btn-block remove" type="button"><span className="fa fa-times"/>Remove</button>
+                      </div> */}
+                      
+                      <div data-type="image-buttons" className="row justify-content-center m-0 mt-2">
+                        <button data-type="add" className="btn btn-outline-primary" type="button"><span className="bi bi-camera-fill m-2" />Add</button>
+                        <button data-type="btn-modify" type="button" className="btn btn-outline-primary m-0" data-toggle="popover" data-placement="right" style={{display: 'none'}}>
+                          <span className="fa fa-pencil-alt mr-2" />Modify
+                        </button>
+                      </div>
+                      
+                    </div>
+                    {/* Buttons */}
+                    <div data-type="image-buttons" className="row justify-content-center m-0 mt-2">
+                        {/* <button data-type="add" className="btn btn-outline-primary" type="button"><span className="bi bi-camera-fill m-2" />Add</button> */}
+                        {/* <button data-type="btn-modify" type="button" className="btn btn-outline-primary m-0" data-toggle="popover" data-placement="right" style={{display: 'none'}}>
+                          <span className="fa fa-pencil-alt mr-2" />Modify
+                        </button> */}
+                    </div>
+                    {/* Popover operations */}
+                    <div data-type="popover-model" style={{display: 'none'}}>
+                      <div data-type="popover" className="ml-3 mr-3" style={{minWidth: '150px'}}>
+                        <div className="row">
+                          <div className="col p-0">
+                            <button data-operation="main" className="btn btn-block btn-primary btn-sm rounded-pill" type="button"><span className="fa fa-angle-double-up mr-2" />Main</button>
+                          </div>
+                        </div>
+                        <div className="row mt-2">
+                          <div className="col-6 p-0 pr-1">
+                            <button data-operation="left" className="btn btn-block btn-outline-info btn-sm rounded-pill" type="button"><span className="fa fa-angle-left mr-2" />Left</button>
+                          </div>
+                          <div className="col-6 p-0 pl-1">
+                            <button data-operation="right" className="btn btn-block btn-outline-primary btn-sm rounded-pill" type="button">Right<span className="fa fa-angle-right ml-2" /></button>
+                          </div>
+                        </div>
+                        <div className="row mt-2">
+                          <div className="col-6 p-0 pr-1">
+                            <button data-operation="rotateanticlockwise" className="btn btn-block btn-outline-primary btn-sm rounded-pill" type="button"><span className="fas fa-undo-alt mr-2" />Rotate</button>
+                          </div>
+                          <div className="col-6 p-0 pl-1">
+                            <button data-operation="rotateclockwise" className="btn btn-block btn-outline-primary btn-sm rounded-pill" type="button">Rotate<span className="fas fa-redo-alt ml-2" /></button>
+                          </div>
+                        </div>
+                        <div className="row mt-2">
+                          <button data-operation="remove" className="btn btn-outline-danger btn-sm btn-block" type="button"><span className="fa fa-times mr-2" />Remove</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="form-group row">
+                    <div className="input-group">
+                      {/*Hidden file input for images*/}
+                      <input id="files" type="file" name="files[]" data-button multiple accept="image/jpeg, image/png, image/gif," style={{display: 'none'}} />
+                    </div>
+                  </div>
+                </form>
+                {/* <div className="row mt-2">
+                  <div className="col-md-4 offset-md-8 text-center mb-4">
+                    <button id="btnContinue" type="submit" form="frm" className="btn btn-block btn-outline-primary float-right" data-toggle="tooltip" data-trigger="manual" data-placement="top" data-title="Continue">
+                      Continue<span id="btnContinueIcon" className="bi bi-arrow-right-circle-fill m-2" /><span id="btnContinueLoading" className="fa fa-spin fa-spinner ml-2" style={{display: 'none'}} />
+                    </button>
+                  </div>
+                </div> */}
+              </div>
+              <div className="mb-3">
                 <label htmlFor="exampleFormControlInput1" className="form-label"><span className='notnull'>*</span>Tên sản phẩm</label>
                 <input type="email" className="form-control" id="exampleFormControlInput1" placeholder="Ex. Nikon Coolpix A300 Máy Ảnh Kỹ Thuật Số"/>
               </div>
