@@ -9,16 +9,13 @@ import { IconButton, useTheme } from '@mui/material';
 import { Brightness4, Brightness7 } from '@mui/icons-material';
 import { ColorModeContext } from '../App';
 
-class Nav extends React.Component {
-  constructor(props) {
-    super(props);
-    // Don't call this.setState() here!
-    this.state = { 
-      id:"sp",
-      nameclass:"SP"
-    };
-  }
-  render() {
+
+function Nav () {
+  const [mode, setMode] = React.useState('light');
+  const theme = useTheme();
+  const colorMode = React.useContext(ColorModeContext);
+
+  
     return (
       <div>
         {/* <nav aria-label="breadcrumb">
@@ -83,11 +80,10 @@ class Nav extends React.Component {
             <Accordion.Header><i className="bi bi-bag-fill"></i> <Link  to="/">Thêm sản phẩm</Link></Accordion.Header>
           </Accordion.Item>
         </Accordion>
+        <IconButton sx={{ ml: 1 }} onClick={colorMode.toggleColorMode} color="inherit">
+        {theme.palette.mode === 'dark' ? <Brightness7 /> : <Brightness4 />}
+      </IconButton>
       </div>
-    );
-  }
-}
-
 // class Nav extends React.Component {
 //   constructor(props) {
 //     super(props);
@@ -181,5 +177,6 @@ class Nav extends React.Component {
 //     );
 //   }
 // }
-
+    )
+}
 export default Nav;

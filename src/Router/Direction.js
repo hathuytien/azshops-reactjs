@@ -27,7 +27,7 @@ class Direction extends React.Component {
         <Route path="order" element={<ListOrder />} />
         <Route path="sample" element={<Samples />} />
         <Route path="item-detail/:id.:name" element={<ItemDetail />} />
-        <Route path="order" element={<QuanLyDonHang />} />
+        <Route path="order2" element={<QuanLyDonHang />} />
       </Routes>
     );
   }
