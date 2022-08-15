@@ -6,6 +6,7 @@ import ItemDetail from '../Component/ItemDetail';
 import Samples from '../pages/Samples/ListSample'
 import ListOrder from '../Component/ListOrder';
 import ListProduct from '../Component/ListProduct';
+import QLCauHinh from '../pages/QuanLyCauHinh';
 
 class Direction extends React.Component {
   constructor(props) {
@@ -21,6 +22,7 @@ class Direction extends React.Component {
       <Routes>
         <Route path="/" element={<AddNew />} />
         <Route path="product" element={<ListProduct />} />
+        <Route path="config" element={<QLCauHinh />} />
         <Route path="order" element={<ListOrder />} />
         <Route path="sample" element={<Samples />} />
         <Route path="item-detail/:id.:name" element={<ItemDetail />} />

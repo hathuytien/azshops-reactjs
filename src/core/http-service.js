@@ -8,6 +8,7 @@ export const httpService = {
 
 const api = axios.create();
 api.defaults.baseURL = "https://azshops.herokuapp.com";
+//api.defaults.baseURL = "http://localhost:8080";
 
 async function get(path, params, cacheConfig = false) {
   

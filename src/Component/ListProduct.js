@@ -10,7 +10,7 @@ import { getDatabase , ref, onValue , set, push , child , get , update} from "fi
 import { collection, query, getDocs, deleteDoc } from "firebase/firestore"; 
 import { connect } from 'react-redux';
 
-const store = createStore(allReducers);
+// const store = createStore(allReducers);
 
 class ListProduct extends React.Component {
   constructor(props) {
