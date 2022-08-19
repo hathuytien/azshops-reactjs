@@ -10,8 +10,6 @@ import { getDatabase , ref, onValue , set, push , child , get , update} from "fi
 import { collection, query, getDocs, deleteDoc } from "firebase/firestore"; 
 import { connect } from 'react-redux';
 
-// const store = createStore(allReducers);
-
 class ListProduct extends React.Component {
   constructor(props) {
     super(props);
@@ -23,7 +21,7 @@ class ListProduct extends React.Component {
     
   }
   componentWillMount() {
-    /* let products = JSON.parse(localStorage.getItem('product'));
+    let products = JSON.parse(localStorage.getItem('product'));
     axios
         .get('https://azshops.herokuapp.com/api/mst/product/manage')
         .then((response) => {
@@ -40,25 +38,34 @@ class ListProduct extends React.Component {
         })
         .catch((error) => {
           console.log('error', error)
-    }) */
-    this.props.ShowListProduct();
-    this.setState({
+    })
+    //this.props.ShowListProduct();
+    /* console.log(this.props.LProduct)*/
+    /* this.setState({
       ListProduct:this.props.LProduct
-    });
+    }); */
+    //console.log(this.props.elmQty);
+    //console.log(this.props.LProduct);
+    
   }
   render() {
+    //console.log(this.props.LProduct);
+    //console.log(this.state.ListProduct);
     //console.log(this.state.ListProduct);
     /* console.log(this.props.ShowQuantity(20));
     console.log('elmQty ' + this.props.elmQty); */
     const elmProduct = this.state.ListProduct.map((item, index) =>{
-      if(index < 5){
-        return (
-          <Product 
-            key={index} 
-            item={item} 
-          />
-        ); 
-      }
+      //console.log(item);
+      /* if(index < 5){
+        
+      } */
+      return (
+        <Product 
+          key={index} 
+          index={index} 
+          item={item} 
+        />
+      ); 
     })
     return (
       <div className="pt-4 pb-4">
