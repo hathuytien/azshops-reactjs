@@ -41,7 +41,7 @@ class Variants extends React.Component {
         </div>
         <div className="row c-35 m-0">
           <div className="col-2 show-img">
-            <img src={this.props.imgs[0]} alt="" />
+            <img src={variant.imgUrl} alt="" />
           </div>
           <div className="col-10">
             {variant.typeNm1}: {variant.typeVal1}, {variant.typeNm2}: {variant.typeVal2}<br/>

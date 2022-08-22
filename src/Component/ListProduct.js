@@ -15,19 +15,35 @@ class ListProduct extends React.Component {
     super(props);
     // Don't call this.setState() here!
     this.state = { 
-      ListProduct : []
+      ListProduct : [],
+      ListType:[],
+      ListSort:[],
+      search:"name",
+      text:"Tên sản phẩm",
+      strSearch:"",
+      type:"",
+      sort:""
     };
     //bind đối tượng this cho từng function
-    
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.FProduct = this.FProduct.bind(this);
+    this.FSort = this.FSort.bind(this);
+    this.FType = this.FType.bind(this);
   }
   componentWillMount() {
+    this.FProduct();
+    this.FType();
+    this.FSort();
+  }
+  FProduct = () =>{
     let products = JSON.parse(localStorage.getItem('product'));
     axios
-        .get('https://azshops.herokuapp.com/api/mst/product/manage')
+        .get('https://azshops.herokuapp.com/api/mst/product/manage', { params: { name: this.state.strSearch, proType: this.state.type, sortTpCd: this.state.sort} })
         .then((response) => {
-          if(response.data!=[]){
+          if(response.data.data!=[]){
             this.setState({
-              ListProduct:response.data,
+              ListProduct:response.data.data,
             });
           }
           else{
@@ -39,26 +55,69 @@ class ListProduct extends React.Component {
         .catch((error) => {
           console.log('error', error)
     })
-    //this.props.ShowListProduct();
-    /* console.log(this.props.LProduct)*/
-    /* this.setState({
-      ListProduct:this.props.LProduct
-    }); */
-    //console.log(this.props.elmQty);
-    //console.log(this.props.LProduct);
-    
+  }
+  FType = () =>{
+    let types = JSON.parse(localStorage.getItem('type'));
+    axios
+        .get('https://azshops.herokuapp.com/api/mst/product/type')
+        .then((response) => {
+          if(response.data.data!=[]){
+            this.setState({
+              ListType:response.data.data,
+            });
+          }
+          else{
+            this.setState({
+              ListType:types,
+            });
+          }
+        })
+        .catch((error) => {
+          console.log('error', error)
+    })
+  }
+  FSort = () =>{
+    let sorts = JSON.parse(localStorage.getItem('sort'));
+    axios
+    .get('https://azshops.herokuapp.com/api/com/util/manage/sort')
+    .then((response) => {
+      if(response.data.data!=[]){
+        this.setState({
+          ListSort:response.data.data,
+        });
+      }
+      else{
+        this.setState({
+          ListSort:sorts,
+        });
+      }
+    })
+    .catch((error) => {
+      console.log('error', error)
+})
+  }
+  handleSearch(search, text){
+    this.setState({
+      search:search,
+      text:text
+    });
+  }
+
+  handleChange(event){
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
+    });
+  }
+  handleSubmit(event) {
+    event.preventDefault();
+    this.FProduct();
   }
   render() {
-    //console.log(this.props.LProduct);
-    //console.log(this.state.ListProduct);
-    //console.log(this.state.ListProduct);
-    /* console.log(this.props.ShowQuantity(20));
-    console.log('elmQty ' + this.props.elmQty); */
     const elmProduct = this.state.ListProduct.map((item, index) =>{
-      //console.log(item);
-      /* if(index < 5){
-        
-      } */
       return (
         <Product 
           key={index} 
@@ -84,6 +143,54 @@ class ListProduct extends React.Component {
             <a className="nav-link" href="#">Bản nháp</a>
           </li>
         </ul>
+        <form className="row mb-3" onSubmit={this.handleSubmit}>
+          <div className="col-4">
+            <div className="input-group mb-3">
+              <button className="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">{this.state.text}</button>
+              <ul className="dropdown-menu">
+                <li><a className="dropdown-item" role="button" onClick={()=>this.handleSearch('name','Tên sản phẩm')}>Tên sản phẩm</a></li>
+                <li><a className="dropdown-item" onClick={()=>this.handleSearch('code','Mã sản phẩm')}>Mã sản phẩm</a></li>
+                <li><a className="dropdown-item" onClick={()=>this.handleSearch('sku','Mã SKU nhà bán hàng')}>Mã SKU nhà bán hàng</a></li>
+              </ul>
+              <input type="text" className="form-control" placeholder="Vui lòng nhập" aria-label="Text input with dropdown button" name="strSearch" value={this.state.strSearch} onChange={this.handleChange}/>
+              <button className="btn btn-outline-secondary" type="button" id="button-addon1"><i className="bi bi-search"></i></button>
+            </div>
+          </div>
+          <div className="col-3">
+            <div className="input-group mb-3">
+              
+              <span className="btn border">Ngành hàng</span>
+              <select className="form-select" name="type" value={this.state.type} onChange={this.handleChange}>
+                <option value="">Vui lòng chọn</option>
+                {
+                  this.state.ListType.map((type, key) =>{
+                    return (
+                      <option value={type.id} key={key}>{type.name}</option>
+                    );
+                  })
+                }
+              </select>
+            </div>
+          </div>
+          <div className="col-3">
+            <div className="input-group mb-3">
+              <span className="btn border">Sắp xếp</span>
+              <select className="form-select" name="sort" value={this.state.sort} onChange={this.handleChange}>
+                <option value="">Vui lòng chọn</option>
+                {
+                  this.state.ListSort.map((sort, key) =>{
+                    return (
+                      <option value={sort.code} key={key}>{sort.name}</option>
+                    );
+                  })
+                }
+              </select>
+            </div>
+          </div>
+          <div className="col-2">
+            <button className="btn btn-outline-primary" type="submit"><i className="bi bi-search"></i> Tìm kiếm</button>
+          </div>
+        </form>
         <div className="bg-w mb-3 rounded-3">
         <div className="row m-0 p-0 pt-3 pb-3">
           <div className="c-5 text-center">
@@ -106,176 +213,6 @@ class ListProduct extends React.Component {
           </div>
         </div>
         {elmProduct}
-        {/* <div className="group-category border-top pt-3 pb-3">
-          <div className="row m-0 p-0 pt-1 pb-1">
-            <div className="c-5 text-center">
-              <input className="form-check-input" type="checkbox" defaultValue/>
-            </div>
-            <div className="row c-35 m-0">
-              <div className="col-2">
-                <img src="" alt=""/>
-              </div>
-              <div className="col-10">
-                <span className="text-black-50">Bình Nước: Ống hút<br/>
-            Mã SKU NBH: 1768879222-1650809604005-1<br/>
-            Thời gian giao hàng dự kiến: 28 Apr 2022 ~ 03 May 2022</span>
-              </div>
-            </div>
-            <div className="c-15">
-              1000₫ <i className="bi bi-pencil-fill text-black-50"></i>
-            </div>
-            <div className="c-15">
-              <b className="text-danger">Hết hàng</b> <i className="bi bi-pencil-fill text-black-50"></i>
-            </div>
-            <div className="c-15">
-            <i class="bi bi-circle-fill text-warning"></i> Cần cải thiện <i className="bi bi-exclamation-circle text-black-50"></i>
-            </div>
-            <div className="c-15 text-primary">
-              Chỉnh sửa <br/>xem thêm <i className="bi bi-chevron-down"></i>
-            </div>
-          </div>
-          <div className="category">
-            <div className="row m-0 p-2">
-              <div className="c-5 text-center">
-                
-              </div>
-              <div className="row c-35 m-0">
-                <div className="col-2">
-                  <img src="" alt=""/>
-                </div>
-                <div className="col-10">
-                  <span className="text-black-50">Bình Nước: Ống hút<br/>
-              Mã SKU NBH: 1768879222-1650809604005-1<br/>
-              Thời gian giao hàng dự kiến: 28 Apr 2022 ~ 03 May 2022</span>
-                </div>
-              </div>
-              <div className="c-15">
-                1000₫
-              </div>
-              <div className="c-15">
-                <b className="text-danger">Hết hàng</b>
-              </div>
-              <div className="c-15">
-              
-              </div>
-              <div className="c-15">
-                
-              </div>
-            </div>
-            <div className="row m-0 p-2">
-              <div className="c-5 text-center">
-                
-              </div>
-              <div className="row c-35 m-0">
-                <div className="col-2">
-                  <img src="" alt=""/>
-                </div>
-                <div className="col-10">
-                  <span className="text-black-50">Bình Nước: Ống hút<br/>
-              Mã SKU NBH: 1768879222-1650809604005-1<br/>
-              Thời gian giao hàng dự kiến: 28 Apr 2022 ~ 03 May 2022</span>
-                </div>
-              </div>
-              <div className="c-15">
-                1000₫
-              </div>
-              <div className="c-15">
-                <b className="text-danger">Hết hàng</b>
-              </div>
-              <div className="c-15">
-              
-              </div>
-              <div className="c-15">
-                
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="group-category border-top pt-3 pb-3">
-          <div className="row m-0 p-0 pt-1 pb-1">
-            <div className="c-5 text-center">
-              <input className="form-check-input" type="checkbox" defaultValue/>
-            </div>
-            <div className="row c-35 m-0">
-              <div className="col-2">
-                <img src="" alt=""/>
-              </div>
-              <div className="col-10">
-                <span className="text-black-50">Bình Nước: Ống hút<br/>
-            Mã SKU NBH: 1768879222-1650809604005-1<br/>
-            Thời gian giao hàng dự kiến: 28 Apr 2022 ~ 03 May 2022</span>
-              </div>
-            </div>
-            <div className="c-15">
-              1000₫ <i className="bi bi-pencil-fill text-black-50"></i>
-            </div>
-            <div className="c-15">
-              <b className="text-danger">Hết hàng</b> <i className="bi bi-pencil-fill text-black-50"></i>
-            </div>
-            <div className="c-15">
-            <i class="bi bi-circle-fill text-warning"></i> Cần cải thiện <i className="bi bi-exclamation-circle text-black-50"></i>
-            </div>
-            <div className="c-15 text-primary">
-              Chỉnh sửa <br/>xem thêm <i className="bi bi-chevron-down"></i>
-            </div>
-          </div>
-          <div className="category">
-            <div className="row m-0 p-2">
-              <div className="c-5 text-center">
-                
-              </div>
-              <div className="row c-35 m-0">
-                <div className="col-2">
-                  <img src="" alt=""/>
-                </div>
-                <div className="col-10">
-                  <span className="text-black-50">Bình Nước: Ống hút<br/>
-              Mã SKU NBH: 1768879222-1650809604005-1<br/>
-              Thời gian giao hàng dự kiến: 28 Apr 2022 ~ 03 May 2022</span>
-                </div>
-              </div>
-              <div className="c-15">
-                1000₫
-              </div>
-              <div className="c-15">
-                <b className="text-danger">Hết hàng</b>
-              </div>
-              <div className="c-15">
-              
-              </div>
-              <div className="c-15">
-                
-              </div>
-            </div>
-            <div className="row m-0 p-2">
-              <div className="c-5 text-center">
-                
-              </div>
-              <div className="row c-35 m-0">
-                <div className="col-2">
-                  <img src="" alt=""/>
-                </div>
-                <div className="col-10">
-                  <span className="text-black-50">Bình Nước: Ống hút<br/>
-              Mã SKU NBH: 1768879222-1650809604005-1<br/>
-              Thời gian giao hàng dự kiến: 28 Apr 2022 ~ 03 May 2022</span>
-                </div>
-              </div>
-              <div className="c-15">
-                1000₫
-              </div>
-              <div className="c-15">
-                <b className="text-danger">Hết hàng</b>
-              </div>
-              <div className="c-15">
-              
-              </div>
-              <div className="c-15">
-                
-              </div>
-            </div>
-          </div>
-        </div> */}
         </div>
         <nav aria-label="...">
           <ul className="pagination">

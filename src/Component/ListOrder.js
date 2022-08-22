@@ -15,19 +15,58 @@ class ListOrder extends React.Component {
     super(props);
     // Don't call this.setState() here!
     this.state = { 
-      ListOrder : []
+      ListOrder : [], 
+      ListStatus:[]
     };
     //bind đối tượng this cho từng function
-    
+    this.handleClick  = this.handleClick .bind(this);
   }
   UNSAFE_componentWillMount() {
     let orders = JSON.parse(localStorage.getItem('order'));
+    let status = JSON.parse(localStorage.getItem('status'));
     axios
-        .get('https://azshops.herokuapp.com/api/mst/product/manage')
+        .get('https://azshops.herokuapp.com/api/inv/manage')
         .then((response) => {
-          if(response.data!=[]){
+          if(response.data.data!=[]){
             this.setState({
-              ListOrder:response.data,
+              ListOrder:response.data.data,
+            });
+          }
+          else{
+            this.setState({
+              ListOrder:orders,
+            });
+          }
+        })
+        .catch((error) => {
+          console.log('error', error)
+    })
+    axios
+        .get('https://azshops.herokuapp.com/api/inv/status')
+        .then((response) => {
+          if(response.data.data!=[]){
+            this.setState({
+              ListStatus:response.data.data,
+            });
+          }
+          else{
+            this.setState({
+              ListStatus:status,
+            });
+          }
+        })
+        .catch((error) => {
+          console.log('error', error)
+    })
+  }
+  handleClick (code){
+    let orders = JSON.parse(localStorage.getItem('order'));
+    axios
+        .get('https://azshops.herokuapp.com/api/inv/manage', { params: { status: code } })
+        .then((response) => {
+          if(response.data.data!=[]){
+            this.setState({
+              ListOrder:response.data.data,
             });
           }
           else{
@@ -41,8 +80,8 @@ class ListOrder extends React.Component {
     })
   }
   render() {
-    console.log(this.state.ListOrder);
-    console.log(this.props);
+    //console.log(this.state.ListOrder);
+    //console.log(this.props);
     const elmOrder = this.state.ListOrder.map((item, index) =>{
       return (
         <Order 
@@ -51,11 +90,19 @@ class ListOrder extends React.Component {
         />
       );
     })
+    const elmStatus = this.state.ListStatus.map((item, index) =>{
+      return (
+        <li className="nav-item" key={index} onClick={() =>this.handleClick(item.code)} id={item.code} value={item.code}>
+          <span className="nav-link">{item.name}</span>
+        </li>
+      );
+    })
     return (
       <div className="pt-4 pb-4">
         <h2 className="mb-3">Quản lý đơn hàng</h2>
         <ul className="nav mb-4">
-          <li className="nav-item">
+          {elmStatus}
+          {/* <li className="nav-item">
             <a className="nav-link active" aria-current="page" href="#">Tất cả</a>
           </li>
           <li className="nav-item">
@@ -66,7 +113,7 @@ class ListOrder extends React.Component {
           </li>
           <li className="nav-item">
             <a className="nav-link" href="#">Đang vận chuyển</a>
-          </li>
+          </li> */}
         </ul>
         <div className="row bg-w m-0 mb-3 p-0 pt-3 pb-3 rounded-pill">
           <div className="c-5">

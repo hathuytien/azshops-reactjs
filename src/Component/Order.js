@@ -4,6 +4,7 @@ import Title from './Title';
 import Control from './Control';
 import Form from './Form';
 import List from './List';
+import OrderDetail from './OrderDetail';
 import {filter, includes, orderBy as funcOrderBy, remove, reject} from 'lodash';
 /* import Direction from '../Router/Direction'; */
 import { v4 as uuidv4 } from 'uuid';
@@ -24,6 +25,7 @@ class Order extends React.Component {
   }
   render() {
     const {item}  = this.props;
+    var totalPrice = 0;
     return (
       <div className="bg-w rounded-3 mb-3">
           <div className="row m-0 p-0 pt-3 pb-3 border-bottom">
@@ -31,7 +33,7 @@ class Order extends React.Component {
               <input className="form-check-input" type="checkbox" defaultValue id="flexCheckDefault" />
             </div>
             <div className="c-35">
-              <i className="bi bi-person-circle text-primary"></i> <span className="phone text-primary">0812944844</span> <i className="bi bi-messenger text-primary"></i> <span className="quantity">({item.qty} Sản phẩm)</span>
+              <i className="bi bi-person-circle text-primary"></i> <span className="phone text-primary">0812944844 {item.custNm}</span> <i className="bi bi-messenger text-primary"></i> <span className="quantity">({item.detail.length} Sản phẩm)</span>
             </div>
             <div className="c-10">
               
@@ -40,10 +42,10 @@ class Order extends React.Component {
             
             </div>
             <div className="c-20 text-black-50">
-              Số đơn hàng: <span className="text-primary">350373360523120</span>
+              Số đơn hàng: <span className="text-primary">{item.id}</span>
             </div>
             <div className="c-20 text-black-50">
-              Thời gian tạo: 27 Apr 2022 21:29
+              Thời gian tạo: {item.createdDate}
             </div>
           </div>
           <div className="row m-0 mb-3 p-0 pt-3 pb-3 ">
@@ -51,26 +53,29 @@ class Order extends React.Component {
 
             </div>
             <div className="row c-35 m-0">
-              <div className="col-2">
-                <img src={item.imgUrls[0]} alt=""/>
-              </div>
-              <div className="col-8">
-                {item.name}<br/>
-                <span className="text-black-50">Bình Nước: Ống hút<br/>
-Mã SKU NBH: 1768879222-1650809604005-1<br/>
-Thời gian giao hàng dự kiến: 28 Apr 2022 ~ 03 May 2022</span>
-              </div>
-              <div className="col-2 text-center text-black-50">
-                {item.price}₫<br/>
-<span className="text-primary">×1</span>
-              </div>
+              {
+                item.detail.map((detail, key) =>{
+                  return (
+                    <OrderDetail 
+                      key={key} 
+                      detail={detail} 
+                    />
+                  );
+                })
+              }
             </div>
             <div className="c-10 text-center text-black-50">
-              13,800₫<br/>
+              {/* {item.detail[0].totalPrice}₫<br/> */}
+              {
+                item.detail.map((detail, key) =>{
+                  totalPrice= totalPrice + Number.parseInt(detail.originPrice);
+                })
+              }
+              {totalPrice.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}₫<br/>
               <span className="badge rounded-pill bg-primary">CODE</span>
             </div>
             <div className="c-10 text-center">
-              Tiêu chuẩn
+              {item.detail[0].deliveryNm}
             </div>
             <div className="c-20">
               Đã hủy <br/>
