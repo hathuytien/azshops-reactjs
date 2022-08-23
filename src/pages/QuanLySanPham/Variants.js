@@ -1,17 +1,4 @@
 import React from 'react';
-//import logo from './logo.svg';
-import Title from './Title';
-import Control from './Control';
-import Form from './Form';
-import List from './List';
-import {filter, includes, orderBy as funcOrderBy, remove, reject} from 'lodash';
-/* import Direction from '../Router/Direction'; */
-import { v4 as uuidv4 } from 'uuid';
-import axios from 'axios';
-//const uuidv4 = require('uuid/v4');
-import { getDatabase , ref, onValue , set, push , child , get , update} from "firebase/database";
-import { collection, query, getDocs, deleteDoc } from "firebase/firestore"; 
-import { isContentEditable } from '@testing-library/user-event/dist/utils';
 
 class Variants extends React.Component {
   constructor(props) {
