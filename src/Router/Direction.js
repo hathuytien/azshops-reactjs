@@ -8,6 +8,7 @@ import ListOrder from '../pages/QuanLyDonHang/ListOrder';
 import ListProduct from '../pages/QuanLySanPham/ListProduct';
 import QLCauHinh from '../pages/QuanLyCauHinh';
 import QuanLyDonHang from '../pages/QuanLyDonHang/ListOrder'
+import ManageLanguage from '../pages/ManageLanguage'
 
 class Direction extends React.Component {
   constructor(props) {
@@ -28,6 +29,8 @@ class Direction extends React.Component {
         <Route path="sample" element={<Samples />} />
         <Route path="item-detail/:id.:name" element={<ItemDetail />} />
         <Route path="order2" element={<QuanLyDonHang />} />
+        
+        <Route path="setup/language" element={<ManageLanguage />} />
       </Routes>
     );
   }

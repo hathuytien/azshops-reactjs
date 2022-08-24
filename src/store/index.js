@@ -1,12 +1,13 @@
 // import thunk from 'redux-thunk';
 import { combineReducers } from 'redux';
 import counter from '../store/manageProper'
+import languageReducer from '../store/manageLanguage'
 import thunk from 'redux-thunk'
 var redux = require('redux');
 
 const allReducers = combineReducers({
   counter,
-  
+  languageReducer,
   // add more reducers here
 });
 

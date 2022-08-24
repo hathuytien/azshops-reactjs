@@ -76,6 +76,14 @@ function Nav () {
               </ul>
             </Accordion.Body>
           </Accordion.Item>
+          <Accordion.Item eventKey="2">
+            <Accordion.Header><i className="bi bi-bag-fill"></i> Thiết lập</Accordion.Header>
+            <Accordion.Body>
+              <ul>
+                <li><Link  to="/setup/language">Thiết lập ngôn ngữ</Link></li>
+              </ul>
+            </Accordion.Body>
+          </Accordion.Item>
           <Accordion.Item className="not-icon">
             <Accordion.Header><i className="bi bi-bag-fill"></i> <Link  to="/">Thêm sản phẩm</Link></Accordion.Header>
           </Accordion.Item>
