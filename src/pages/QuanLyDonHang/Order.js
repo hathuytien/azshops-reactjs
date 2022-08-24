@@ -1,17 +1,6 @@
 import React from 'react';
-//import logo from './logo.svg';
-import Title from './Title';
-import Control from './Control';
-import Form from './Form';
-import List from './List';
 import OrderDetail from './OrderDetail';
-import {filter, includes, orderBy as funcOrderBy, remove, reject} from 'lodash';
-/* import Direction from '../Router/Direction'; */
-import { v4 as uuidv4 } from 'uuid';
-import axios from 'axios';
-//const uuidv4 = require('uuid/v4');
-import { getDatabase , ref, onValue , set, push , child , get , update} from "firebase/database";
-import { collection, query, getDocs, deleteDoc } from "firebase/firestore"; 
+import ReactTooltip from 'react-tooltip';
 
 class Order extends React.Component {
   constructor(props) {
@@ -65,24 +54,25 @@ class Order extends React.Component {
               }
             </div>
             <div className="c-10 text-center text-black-50">
-              {/* {item.detail[0].totalPrice}₫<br/> */}
-              {
+              {Number.parseInt(item.totalAmount).toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}₫<br/>
+              {/* {
                 item.detail.map((detail, key) =>{
                   totalPrice= totalPrice + Number.parseInt(detail.originPrice);
                 })
               }
-              {totalPrice.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}₫<br/>
-              <span className="badge rounded-pill bg-primary">CODE</span>
+              {totalPrice.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}₫<br/> */}
+              <span className="badge rounded-pill bg-primary" data-tip={item.payNm}>{item.payType}</span>
+              <ReactTooltip />
             </div>
             <div className="c-10 text-center">
-              {item.detail[0].deliveryNm}
+              {item.deliveryNm}
             </div>
             <div className="c-20">
-              Đã hủy <br/>
+              {item.stsNm} <br/>
               <span className="text-black-50"><i className="bi bi-printer"></i> Mã vận đơn <i className="bi bi-printer"></i> Hóa đơn <br/>
               <i className="bi bi-printer"></i> Danh sách chọn<br/>
               Lý do hủy: [Seller] Hủy bởi nhà bán hàng do sai giá<br/>
-Thời gian hủy: 27 Apr 2022 23:39</span>
+Thời gian hủy: {item.updatedDate}</span>
             </div>
             <div className="c-20">
               <button type="button" className="btn btn-primary">IN HÓA ĐƠN</button>

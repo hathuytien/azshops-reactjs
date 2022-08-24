@@ -4,10 +4,10 @@ import AddNew from '../Component/AddNew';
 import {Routes, Route} from "react-router-dom";
 import ItemDetail from '../Component/ItemDetail';
 import Samples from '../pages/Samples/ListSample'
-import ListOrder from '../Component/ListOrder';
+import ListOrder from '../pages/QuanLyDonHang/ListOrder';
 import ListProduct from '../pages/QuanLySanPham/ListProduct';
 import QLCauHinh from '../pages/QuanLyCauHinh';
-import QuanLyDonHang from '../pages/QuanLyDonHang'
+import QuanLyDonHang from '../pages/QuanLyDonHang/ListOrder'
 
 class Direction extends React.Component {
   constructor(props) {
