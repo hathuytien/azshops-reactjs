@@ -4,22 +4,32 @@ import Control from './Control';
 import axios from 'axios';
 import { httpService } from '../../core/http-service';
 import { connect } from 'react-redux';
+import { useDispatch, useSelector } from "react-redux";
+import { RsetStrSearch, RsetType, RsetSort, RsetIdProduct } from "../../store/manageProduct/action";
 
 function ListProduct() {
   const [ListProduct, setListProduct] = useState([]);
-  const [strSearch, setStrSearch] = useState("");
-  const [type, setType] = useState("");
-  const [sort, setSort] = useState("");
-  const [proId, setProId] = useState("");
+  //const [strSearch, setStrSearch] = useState("");
+  //const [type, setType] = useState("");
+  //const [sort, setSort] = useState("");
+  //const [proId, setProId] = useState("");
   
+  const strSearch = useSelector((state) => state.productReducer.strSearch);
+  const type = useSelector((state) => state.productReducer.typeProduct);
+  const sort = useSelector((state) => state.productReducer.sort);
+  const proId = useSelector((state) => state.productReducer.proId);
+  const dispatch = useDispatch();
   useEffect(() => {
     FProduct();
-  }, []);
+  }, [dispatch]);
   async function FProduct() {
     let products = await httpService.get('api/mst/product/manage', {proId: proId, name: strSearch, proType: type, sortTpCd: sort});
     setListProduct(products.data);
   }
-  function handleSubmit(params) {
+  useEffect(() => {
+    FProduct();
+  });
+  /* function handleSubmit(params) {
     if(params.search=="name"){
       setProId('');
       setStrSearch(params.name);
@@ -32,7 +42,7 @@ function ListProduct() {
     setType(params.proType); 
     setSort(params.sortTpCd);
     FProduct();
-  }
+  } */
   return(
       <div className="pt-4 pb-4">
         <h2 className="mb-3">Quản lý sản phẩm</h2>
@@ -50,7 +60,7 @@ function ListProduct() {
             <a className="nav-link" href="#">Bản nháp</a>
           </li>
         </ul>
-        <Control handleSubmit={handleSubmit} />
+        <Control />
         <div className="bg-w mb-3 rounded-3">
         <div className="row m-0 p-0 pt-3 pb-3">
           <div className="c-5 text-center">
@@ -102,8 +112,8 @@ function ListProduct() {
       </div>
   )
 }
-/* export default ListProduct; */
-const mapStateToProps = (state, ownProps) => {
+export default ListProduct;
+/* const mapStateToProps = (state, ownProps) => {
   return {
     elmQty: state.elmQty,
     LProduct: state.LProduct
@@ -119,4 +129,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     }
   }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(ListProduct);
+export default connect(mapStateToProps, mapDispatchToProps)(ListProduct); */

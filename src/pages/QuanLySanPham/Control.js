@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { httpService } from '../../core/http-service';
+import { useDispatch, useSelector } from "react-redux";
+import { RsetStrSearch, RsetType, RsetSort, RsetIdProduct } from "../../store/manageProduct/action";
 
 function Control(props) {
   const [ListType, setListType] = useState([]);
@@ -11,10 +13,12 @@ function Control(props) {
   const [type, setType] = useState("");
   const [sort, setSort] = useState("");
   
+  const dispatch = useDispatch();
+
   useEffect(() => {
     FType();
     FSort();
-  }, []);
+  }, [dispatch]);
   async function FType() {
     let types = await httpService.get('api/mst/product/type');
     setListType(types.data);
@@ -29,13 +33,27 @@ function Control(props) {
   }
   function handleSubmit() {
     //event.preventDefault();
-    var params={
+    /* var params={
       name: strSearch, 
       proType: type, 
       sortTpCd: sort,
       search: search
+
+      
+    } */
+    if(search=="name"){
+      dispatch(RsetIdProduct(""));
+      dispatch(RsetStrSearch(strSearch));
     }
-    props.handleSubmit(params);
+    if(search=="code"){
+      dispatch(RsetStrSearch(""));
+      dispatch(RsetIdProduct(strSearch));
+    }
+    
+    dispatch(RsetType(type));
+    dispatch(RsetSort(sort));
+    //RsetIdProduct(pr)
+    //props.handleSubmit(params);
     //FProduct();
   }
   return(

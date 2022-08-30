@@ -19,7 +19,7 @@ class OrderDetail extends React.Component {
         </div>
         <div className="col-8">
           {detail.proNm}<br/>
-          <span className="text-black-50">{detail.proType} <br/> Mã SKU NBH: {detail.proId}<br/>
+          <span className="text-black-50">{detail.proType} <br/> Mã SKU NBH: {detail.skuShop}<br/>
 Thời gian giao hàng dự kiến: {detail.planDeliveryTo}</span>
         </div>
         <div className="col-2 text-center text-black-50">
