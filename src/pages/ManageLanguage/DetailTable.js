@@ -5,8 +5,9 @@ import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import React, { useEffect, useState } from "react";
 
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import SaveIcon from '@mui/icons-material/Save';
+import { deleteLanguageItem, saveDetail, updateNewDetail } from "../../store/manageLanguage/action";
 
 const currencies = [
   {
@@ -20,7 +21,12 @@ const currencies = [
 ];
 function DetailTable() {
 
+  const dispatch = useDispatch()
+
   const languageDetail = useSelector((state) => state.languageReducer.listDetail)
+
+  
+  const newItem = useSelector((state) => state.languageReducer.newDetail)
 
   useEffect(() => {
     setIsAddNew(false);
@@ -34,9 +40,18 @@ function DetailTable() {
 
   const handleChange = (event) => {
     setCurrency(event.target.value);
+    dispatch(updateNewDetail({...newItem, locale: event.target.value}));
   };
 
-  const [currency, setCurrency] = React.useState('en');
+  const handleContentChange = (event) => {
+    dispatch(updateNewDetail({...newItem, content: event.target.value}));
+  }
+
+  const handleSaveClick = () => {
+    dispatch(saveDetail());
+  };
+
+  const [currency, setCurrency] = React.useState('vi');
 
   let renderItem = (item, index) => {
     return <ListItemButton key={index}>
@@ -48,19 +63,16 @@ function DetailTable() {
           <Grid container
             justifyContent="flex-end">
             <Box>
-              <IconButton aria-label="delete">
+              <IconButton>
                 <EditIcon />
               </IconButton>
-              <IconButton aria-label="delete">
+              <IconButton onClick={()=>{dispatch(deleteLanguageItem(item.id))}}>
                 <DeleteIcon />
               </IconButton>
             </Box>
           </Grid >
         </Grid>
       </Grid>
-
-
-
     </ListItemButton>
   }
 
@@ -70,6 +82,7 @@ function DetailTable() {
         <Grid container spacing={2}>
           <Grid item xs={5}>
             <TextField
+              onChange={handleContentChange}
               sx={{ width: '100%' }}
               id="outlined-basic"
               label="Content"
@@ -97,11 +110,11 @@ function DetailTable() {
             <Grid container
               justifyContent="flex-end">
               <Box>
-                <IconButton aria-label="delete">
-                  <SaveIcon />
+                <IconButton>
+                  <SaveIcon onClick={(event) => handleSaveClick(event)}/>
                 </IconButton>
-                <IconButton aria-label="delete">
-                  <DeleteIcon />
+                <IconButton>
+                  <DeleteIcon onClick={() => {setIsAddNew(false)}}/>
                 </IconButton>
               </Box>
             </Grid >
@@ -109,9 +122,9 @@ function DetailTable() {
         </Grid>
       </ListItemButton>
     } else {
-      return <ListItemButton key={index} onClick={(event) => handleAddNewClick(event)}>
-        <IconButton aria-label="delete">
-          <AddIcon />
+      return <ListItemButton key={index} >
+        <IconButton>
+          <AddIcon onClick={(event) => {handleAddNewClick(event)}}/>
         </IconButton>
         <ListItemText primary="Thêm mới" />
       </ListItemButton>
@@ -135,10 +148,10 @@ function DetailTable() {
       <Grid container
         justifyContent="flex-end">
         <Box>
-          <IconButton aria-label="delete">
+          <IconButton>
             <ControlPointIcon />
           </IconButton>
-          <IconButton aria-label="delete">
+          <IconButton>
             <DeleteIcon />
           </IconButton>
         </Box>
