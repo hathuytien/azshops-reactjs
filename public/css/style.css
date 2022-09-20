@@ -148,3 +148,12 @@ img{
 .bg-w.rounded-3 .group-category:nth-child(even){
     background: rgba(226,239,255,.3);
 }
+
+::-webkit-scrollbar {
+    width: 6px;
+    background-color: transparent;
+  } 
+  ::-webkit-scrollbar-thumb {
+    background-color: #7e7c7c;
+    border-radius: 10px;
+  }

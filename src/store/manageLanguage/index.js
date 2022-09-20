@@ -1,8 +1,22 @@
 const stateUI = {
   counterr: 1,
+  searchVal: '',
   listMaster: [],
   listDetail: [],
-  selectedMaster: null,
+  localeList: [{
+    value: 'en',
+    label: 'English',
+  },
+  {
+    value: 'ch',
+    label: 'China',
+  },
+  {
+    value: 'vi',
+    label: 'Việt nam',
+  }],
+  selectedMaster: {},
+  defaultLocale: 'vi',
   newMaster: {
     content: '',
     locale: 'vi',
@@ -15,16 +29,20 @@ const stateUI = {
 }
 export const languageReducer = (state = stateUI, action) => {
   switch (action.type) {
-    case "MASTER_SELECTED":
-      return { ...state, selectedMaster: action.payload };
-    case "DECREMENT":
-      return { ...state, counterr: state.counterr - action.payload };
     case "INIT":
       return { ...state, listMaster: action.payload };
+    case "SEARCH_UPDATE":
+      return { ...state, searchVal: action.payload };
+    case "MASTER_SELECTED":
+      return { ...state, selectedMaster: action.payload };
+    case "UPDATE_NEW_MASTER":
+      return { ...state, newMaster: action.payload };
     case "DETAIL":
       return { ...state, listDetail: action.payload };
     case "UPDATE_NEW_LANGUAGE_ITEM":
       return { ...state, newDetail: action.payload };
+    case "UPDATE_DETAIL_LIST":
+      return { ...state, listDetail: action.payload };
     default:
       return state;
   }

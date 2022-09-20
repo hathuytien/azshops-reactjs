@@ -5,19 +5,29 @@ import Demo from './Demo';
 /* import Collapsible from 'react-collapsible';
 import { Accordion } from 'react-bootstrap-accordion'; */
 import { Accordion, Card, Button } from "react-bootstrap";
-import { IconButton, useTheme } from '@mui/material';
+import { Box, IconButton, useTheme } from '@mui/material';
 import { Brightness4, Brightness7 } from '@mui/icons-material';
 import { ColorModeContext } from '../App';
+import { useDispatch } from 'react-redux';
+import { setActiveMenu } from '../store/nav/action';
 
 
 function Nav () {
+  const dispatch = useDispatch()
+
   const [mode, setMode] = React.useState('light');
   const theme = useTheme();
   const colorMode = React.useContext(ColorModeContext);
 
-  
+  function handleMenuClick (event) {
+    console.log(event)
+    if (event.target?.localName === 'a') {
+      console.log(event.target.innerHTML)
+      dispatch(setActiveMenu({name: event.target.innerHTML}))
+    }
+  }
     return (
-      <div>
+      <Box>
         {/* <nav aria-label="breadcrumb">
           <ol className="breadcrumb">
             <li className="breadcrumb-item"><Link  to="/">Trang chủ</Link><i className="bi bi-chevron-right"></i></li>
@@ -53,7 +63,7 @@ function Nav () {
             <li><Link  to="/demo">Gợi ý sản phẩm hot</Link></li>
           </ul>
         </Accordion>*/}
-         <Accordion defaultActiveKey="0">
+         <Accordion defaultActiveKey="0" onClick={handleMenuClick}>
           <Accordion.Item eventKey="0">
             <Accordion.Header><i className="bi bi-bag-fill"></i> Sản phẩm <i className="bi bi-dot"></i></Accordion.Header>
             <Accordion.Body>
@@ -91,7 +101,7 @@ function Nav () {
         <IconButton sx={{ ml: 1 }} onClick={colorMode.toggleColorMode} color="inherit">
         {theme.palette.mode === 'dark' ? <Brightness7 /> : <Brightness4 />}
       </IconButton>
-      </div>
+      </Box>
 // class Nav extends React.Component {
 //   constructor(props) {
 //     super(props);
