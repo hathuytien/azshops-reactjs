@@ -21,7 +21,7 @@ function ListOrder() {
   useEffect(() => {
     FOrder();
     FStatus();
-  }, [dispatch]);
+  }, [codeOrder, delivery, startDate, endDate]);
   async function FOrder() {
     let orders = await httpService.get('api/inv/manage', { status: code , invoidId: codeOrder, deliveryId: delivery, createdFmDt: startDate, createdToDt:endDate });
     setListOrder(orders.data);
@@ -34,9 +34,9 @@ function ListOrder() {
     setCode(status);
     FOrder();
   }
-  useEffect(() => {
+  /* useEffect(() => {
     FOrder();
-  });
+  }); */
   return (
     <div className="pt-4 pb-4">
       <h2 className="mb-3">Quản lý đơn hàng</h2>

@@ -21,15 +21,15 @@ function ListProduct() {
   const dispatch = useDispatch();
   useEffect(() => {
     FProduct();
-  }, [dispatch]);
+  }, [strSearch, type, sort, proId]);
   async function FProduct() {
     let products = await httpService.get('api/mst/product/manage', {proId: proId, name: strSearch, proType: type, sortTpCd: sort});
     setListProduct(products.data);
   }
-  useEffect(() => {
+  /*useEffect(() => {
     FProduct();
   });
-  /* function handleSubmit(params) {
+   function handleSubmit(params) {
     if(params.search=="name"){
       setProId('');
       setStrSearch(params.name);
